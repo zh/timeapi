@@ -26,14 +26,14 @@ module TimeAPI
       zone = params[:zone].upcase
       offset = TimeAPI::const_get(zone) * 60 * 60
       
-      (Time.now.utc + offset).iso8601
+      (Time.now.utc - offset).iso8601
     end
     
     get '/:zone/:time' do
       zone = params[:zone].upcase
       offset = TimeAPI::const_get(zone) * 60 * 60
       
-      Chronic.parse(params[:time], :now=>Time.now.utc + offset).iso8601
+      Chronic.parse(params[:time], :now=>Time.now.utc - offset).iso8601
     end
   
   end
