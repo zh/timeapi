@@ -19,6 +19,11 @@ module TimeAPI
       throw :halt, [400, "Bad request, missing 'dt' parameter"] unless params['dt']
       Chronic.parse(params['dt']).to_s
     end
+
+    get '/pdt/:dt' do
+      throw :halt, [400, "Bad request, missing 'dt' parameter"] unless params['dt']
+      Chronic.parse(params['dt']).to_s
+    end
   
   end
 end
