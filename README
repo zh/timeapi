@@ -1,0 +1,25 @@
+timeapi
+========
+
+An online date/time parsing service, based on the 'chronic' ruby gem.
+
+
+
+Overview
+---------
+
+Chronic [ http://chronic.rubyforge.org/ ] is a natural language date/time parser 
+written in pure Ruby. TimeAPI just adds an RESTful service around chronic.
+
+
+
+Usage
+------
+
+From a browser visit http://chronic.heroku.com/ and fill the textbox with a 
+string containing a natural language date. Examples: 'tomorrow', 'in two hours' etc.
+
+API (just one method) is available on URL http://chronic.heroku.com/pdt/{your_string}
+For example:
+
+  http://chronic.heroku.com/pdt/in+two+hours
