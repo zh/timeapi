@@ -22,7 +22,6 @@ module TimeAPI
       erb :index
     end
     
-    # Main hub endpoint for both publisher and subscribers
     get '/:zone' do
       zone = params[:zone].upcase
       offset = TimeAPI::const_get(zone) * 60 * 60
@@ -39,5 +38,3 @@ module TimeAPI
   
   end
 end
-
-TimeAPI::App.run!
