@@ -1,14 +1,22 @@
 <html>
 <head>
-<title>timeapi</title>
+<title>TimeAPI</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
+  <p>
+  TimeAPI is an API to get dates/times from natural language queries based on <a href="http://chronic.rubyforge.org/">Chronic</a>.
+  </p>
+  <h3>Examples</h3>
+	<ul>
+		<li><a href="/utc/now">"/utc/now" &rarr; Current UTC time</a></li>
+		<li><a href="/pdt/in+two+hours">"/pdt/in+two+hours" &rarr; Time two hours from now in PDT</a></li>
+		<li><a href="/pdt/next+monday">"/pdt/next+monday" &rarr; Datetime for next Monday in PDT</a></li>
+		<li><a href="/pdt/friday+at+noon">"/pdt/friday+at+noon" &rarr; Datetime for this Friday at noon in PDT ("friday noon" works too)</a></li>
+	</ul>
+	<p>See <a href="http://chronic.rubyforge.org/">Chronic documentation</a> for more examples.</p>
 	<p>
-		<a href="/pdt">"/pdt" &rarr; Get current time in PDT</a>
-	</p>
-	<p>
-		<a href="/pdt">"/pdt/in+two+hours" &rarr; Get time two hours from now in PDT</a>
+		by <a href="http://zh.soup.io/">Stoyan Zhekov</a>, <a href="http://chipt.com/">Matt Pennig</a>, and <a href="http://progrium.com">Jeff Lindsay</a>. <a href="http://github.com/progrium/timeapi/tree/master">Source code</a> is on GitHub. Hosted on <a href="http://heroku.com/">Heroku</a>.
 	</p>
 </body>
 </html>
