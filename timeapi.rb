@@ -4,25 +4,31 @@ require 'chronic'
 require 'date'
 
 module TimeAPI
-  PST = -8
-  MST = -7
-  CST = -6
-  EST = -5
-  PDT = -7
-  MDT = -6
-  CDT = -5
-  EDT = -4
-  UTC = 0
-  GMT = 0
   
   class App < Sinatra::Default
   
     set :sessions, false
     set :run, false
     set :environment, ENV['RACK_ENV']
+
+    helpers do
+      # convert zone to offset
+      def z2o(zone)
+        offsets = { "PST" => -8, "MST" => -7, "CST" => -6, "EST" => -5, 
+                    "PDT" => -7, "MDT" => -6, "CDT" => -5, "EDT" => -4,
+                    "UTC" =>  0, "GMT" => 0 }
+        offsets[zone ? zone.upcase : "UTC"]
+      end  
+    end  
   
     get '/' do
       erb :index
+    end
+
+    post '/' do
+      throw :halt, [400, "Bad request, missing 'dt' parameter"] unless params[:dt]
+      offset = z2o(params[:zone])
+      Time.new.utc.to_datetime.new_offset(Rational(offset, 24)).to_s
     end
     
     get '/favicon.ico' do
@@ -30,16 +36,12 @@ module TimeAPI
     end
     
     get '/:zone' do
-      zone = params[:zone].upcase
-      offset = TimeAPI::const_get(zone)
-      
+      offset = z2o(params[:zone])
       Time.new.utc.to_datetime.new_offset(Rational(offset,24)).to_s
     end
     
     get '/:zone/:time' do
-      zone = params[:zone].upcase
-      offset = TimeAPI::const_get(zone)
-      
+      offset = z2o(params[:zone])
       Chronic.parse(
         params[:time], :now=>Time.new.utc
       ).to_datetime.new_offset(Rational(offset,24)).to_s
