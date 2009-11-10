@@ -43,7 +43,7 @@ module TimeAPI
     get '/:zone/:time' do
       offset = z2o(params[:zone])
       Chronic.parse(
-        params[:time], :now=>Time.new.utc
+        params[:time], :now=>Time.new.utc.to_datetime.new_offset(Rational(offset,24))
       ).to_datetime.new_offset(Rational(offset,24)).to_s
     end
   
@@ -59,5 +59,11 @@ class Time
     # fraction of a day.
     offset = Rational(utc_offset, 60 * 60 * 24)
     DateTime.new(year, month, day, hour, min, seconds, offset)
+  end
+end
+
+class DateTime
+  def to_datetime
+    self
   end
 end
