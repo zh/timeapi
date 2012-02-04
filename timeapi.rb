@@ -2,6 +2,7 @@ require 'rubygems'
 require 'sinatra'
 require 'chronic'
 require 'date'
+require 'cgi'
 
 ENV['RACK_ENV'] ||= "development"
 ENV['TIMEAPI_MIME'] ||= "text/plain"
@@ -47,11 +48,11 @@ module TimeAPI
     end
     
     get '/:zone/:time' do
-      content_type ENV['TIMEAPI_MIME']
       offset = z2o(params[:zone])
-      Chronic.parse(
-        params[:time], :now=>Time.new.utc.to_datetime.new_offset(Rational(offset,24))
-      ).to_datetime.new_offset(Rational(offset,24)).to_s
+      result = Chronic.parse(CGI.unescape(params[:time]),:now=>Time.new.utc.to_datetime.new_offset(Rational(offset,24)))
+      throw :halt, [400, "Bad request"] unless result
+      content_type ENV['TIMEAPI_MIME']
+      result.to_datetime.new_offset(Rational(offset,24)).to_s
     end
 
     # start the server if ruby file executed directly
