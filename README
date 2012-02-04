@@ -19,7 +19,7 @@ Usage
 From a browser visit http://chronic.heroku.com/ and fill the textbox with a 
 string containing a natural language date. Examples: 'tomorrow', 'in two hours' etc.
 
-API (just one method) is available on URL http://chronic.heroku.com/pdt/{your_string}
+API (just one method) is available on URL http://chronic.herokuapp.com/pdt/{your_string}
 For example:
 
-  http://chronic.heroku.com/pdt/in+two+hours
+  http://chronic.herokuapp.com/pdt/in+two+hours
