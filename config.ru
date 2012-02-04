@@ -1,5 +1,5 @@
 #!/usr/bin/env rackup
 
-require 'timeapi.rb'
+require File.join(File.dirname(__FILE__),'timeapi')
 run TimeAPI::App
 

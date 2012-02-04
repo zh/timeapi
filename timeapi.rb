@@ -3,13 +3,17 @@ require 'sinatra'
 require 'chronic'
 require 'date'
 
+ENV['RACK_ENV'] ||= "development"
+ENV['TIMEAPI_MIME'] ||= "text/plain"
+
 module TimeAPI
   
-  class App < Sinatra::Default
-  
-    set :sessions, false
-    set :run, false
-    set :environment, ENV['RACK_ENV']
+  class App < Sinatra::Base
+ 
+    configure do 
+      disable :sessions
+      set :environment, ENV['RACK_ENV']
+    end
 
     helpers do
       # convert zone to offset
@@ -27,6 +31,7 @@ module TimeAPI
 
     post '/' do
       throw :halt, [400, "Bad request, missing 'dt' parameter"] unless params[:dt]
+      content_type ENV['TIMEAPI_MIME']
       offset = z2o(params[:zone])
       Time.new.utc.to_datetime.new_offset(Rational(offset, 24)).to_s
     end
@@ -36,17 +41,21 @@ module TimeAPI
     end
     
     get '/:zone' do
+      content_type ENV['TIMEAPI_MIME']
       offset = z2o(params[:zone])
       Time.new.utc.to_datetime.new_offset(Rational(offset,24)).to_s
     end
     
     get '/:zone/:time' do
+      content_type ENV['TIMEAPI_MIME']
       offset = z2o(params[:zone])
       Chronic.parse(
         params[:time], :now=>Time.new.utc.to_datetime.new_offset(Rational(offset,24))
       ).to_datetime.new_offset(Rational(offset,24)).to_s
     end
-  
+
+    # start the server if ruby file executed directly
+    run! if app_file == $0  
   end
 end
 
