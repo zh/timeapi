@@ -114,7 +114,7 @@ module TimeAPI
           .gsub(/(\d)sec/, '\1 seconds') \
           .gsub(/(\d)s/, '\1 seconds')
       
-        if prefers_json?
+        if json?
           response.headers['Content-Type'] = 'application/json'
         else
           response.headers['Content-Type'] = ENV['TIMEAPI_MIME']
